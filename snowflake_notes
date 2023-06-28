@@ -1,1 +1,30 @@
-ssss
+Zero-copy clones in Snowflake create a snapshot of the data at the time of cloning. Once a clone is created, it remains independent of the original data and does not automatically reflect subsequent updates to the original data.
+
+Here's what happens when the original data gets updated after a zero-copy clone is created:
+Original Data: Any updates, inserts, or deletes performed on the original data after the clone is created do not automatically propagate to the clone.
+Cloned Data: The clone maintains the state of the data as it was at the time of cloning. The data in the clone remains static unless explicitly modified within the clone itself.
+Independence: The clone and the original data are separate entities. Updates made to the original data or the clone do not affect each other.
+
+If you want the clone to reflect the changes made to the original data, you have a few options:
+a. Recreate the Clone: If you need an updated snapshot of the data, you can recreate the clone by cloning the original data again. This will create a new clone that reflects the latest state of the data at the time of cloning.
+b. Perform Incremental Updates: Instead of recreating the entire clone, you can perform incremental updates on the existing clone to reflect the changes made to the original data. This involves applying the necessary changes to the clone using INSERT, UPDATE, or DELETE statements.
+
+It's important to note that the independence of clones from the original data is one of the key characteristics of zero-copy clones. This allows you to work with a static snapshot of the data, enabling reproducible analyses and comparisons. However, it also means that if you require real-time or synchronized data between the clone and the original, you may need to consider alternative approaches such as using views or setting up data replication mechanisms.
+
+Always consider your specific use case and requirements when deciding whether to use zero-copy clones or explore other options for sharing and updating data in Snowflake.
+
+
+>>>>the cheapest way to share a large data model in Snowflake would be to use views. Here's why:
+
+Storage Costs: Views do not consume additional storage space since they only store the query definition, not the actual data. This means there are no additional storage costs associated with sharing data through views.
+Compute Costs: Views execute the underlying query each time they are accessed. While there are compute costs involved based on the complexity of the query and the amount of data being processed, these costs are typically lower compared to duplicating the entire dataset or using other data sharing mechanisms.
+Data Freshness: Views provide real-time access to the underlying data. Any changes made to the original data are immediately reflected in the view, ensuring data freshness without the need for manual updates or replication.
+By leveraging views, you can avoid the additional storage costs of duplicating the data, as well as the potential compute costs and complexities associated with maintaining and updating separate copies of the data.
+
+
+
+
+
+
+
+
